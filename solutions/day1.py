@@ -1,5 +1,6 @@
 import re
 
+#Read and format data from input file
 def readFile(fileLocation):
     input = []
     fs = open(fileLocation)
