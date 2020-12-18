@@ -59,6 +59,33 @@ def findSum2020(sortedList, rightPointer, leftPointer=0):
 input = readFile("./inputs/day1.txt")
 sortedInput = quicksort(input)
 print(sortedInput)
-output = findSum2020(sortedInput, len(sortedInput)-1)
-print(output)
+output1 = findSum2020(sortedInput, len(sortedInput)-1)
+print("The answer to part 1 is: "+str(output1))
 
+#Part 2
+#Similar to part 1, put two pointers at extremes of the sorted list and slowly move towards each other
+#A third extra pointer (rightPointer) is held beyond the pointer at the low end of the list (centerPointer)
+#If the low pointer and the third pointer ever sum above 2020, then the low pointer has moved two far up
+#The algorithm is reset, with the extra pointer now sitting one poistion higher up than previously
+def find3Sum2020(sortedList, rightPointer, centerPointer, leftPointer=0):
+    leftNum = sortedInput[leftPointer]
+    centerNum = sortedInput[centerPointer]
+    rightNum = sortedInput[rightPointer]
+    sum1 = centerNum + rightNum
+    #Check low pointer and extra pointer sum below 2020
+    if(sum1 >= 2020):
+        rightPointer-=1
+        centerPointer = rightPointer-1
+        return find3Sum2020(sortedList, rightPointer, centerPointer)
+    #Perform same algorithm as in previous answer
+    else:
+        sum = sum1+leftNum
+        if(sum==2020):
+            return leftNum*centerNum*rightNum
+        elif(sum>2020):
+            return find3Sum2020(sortedList, rightPointer, centerPointer, leftPointer+1)
+        else:
+            return find3Sum2020(sortedList, rightPointer, centerPointer-1, leftPointer)
+
+output2 = find3Sum2020(sortedInput, len(sortedInput)-1, len(sortedInput)-2)
+print("The answer to part 2 is: " + str(output2))
